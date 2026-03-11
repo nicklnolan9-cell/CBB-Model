@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NIL ATS MODEL — March 11 Championship Week</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Barlow+Condensed:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#1a0a00;--card:#1f1108;--card2:#2a1a10;--bdr:#3d2815;
+--txt:#ffe8cc;--dim:#aa8866;--white:#fff;
+--orange:#ff6600;--red:#ff3322;--gold:#ffd700;--green:#22dd77;
+--blue:#4499ff;--purple:#bb66ff;--teal:#00ccaa;
+--leather:#c06820;
+}
+body{background:var(--bg);color:var(--txt);font-family:'Oswald',sans-serif;min-height:100vh;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;z-index:0;
+background:
+  repeating-linear-gradient(90deg,transparent,transparent 49.8%,#ffffff06 49.8%,#ffffff06 50.2%,transparent 50.2%),
+  repeating-linear-gradient(0deg,transparent,transparent 49.8%,#ffffff04 49.8%,#ffffff04 50.2%,transparent 50.2%),
+  radial-gradient(ellipse 60% 40% at 50% 50%,#3d1a0033,transparent),
+  linear-gradient(180deg,#1a0a00,#0d0500);
+pointer-events:none}
+.w{position:relative;z-index:1;max-width:560px;margin:0 auto;padding:16px}
+svg{overflow:visible}
+
+/* Court lines bg */
+.court-lines{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.04}
+.court-lines::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px;border:3px solid #fff;border-radius:50%}
+.court-lines::after{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:3px;height:100%;background:#fff}
+
+/* Hidden SVG defs */
+.defs{position:absolute;width:0;height:0;overflow:hidden}
+
+/* Header */
+.hdr{text-align:center;padding:20px 0 12px;position:relative}
+.hdr::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:120px;height:4px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:2px}
+.badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,#ff660033,#ff660011);border:1px solid #ff660044;border-radius:20px;padding:5px 14px;margin-bottom:10px;font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:3px;color:var(--orange);text-transform:uppercase}
+.balls{display:flex;justify-content:center;gap:12px;margin:8px 0;opacity:.6}
+.balls .b{width:18px;height:18px;animation:bn 2s ease-in-out infinite}
+.balls .b:nth-child(2){animation-delay:.3s}
+.balls .b:nth-child(3){animation-delay:.6s}
+@keyframes bn{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+h1{font-family:'Bebas Neue',sans-serif;font-size:52px;letter-spacing:4px;color:var(--white);line-height:.9;text-shadow:0 0 40px #ff660044,0 2px 0 #331100}
+h1 span{display:block;font-size:22px;letter-spacing:8px;color:var(--orange);margin-top:4px}
+.sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim);letter-spacing:2px;margin-top:8px}
+
+/* Sponsors */
+.sp{display:flex;justify-content:center;align-items:center;gap:14px;padding:10px 0;border-top:1px solid var(--bdr);border-bottom:1px solid var(--bdr);margin:8px 0 14px;flex-wrap:wrap}
+.sp>div{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;color:#554433;text-transform:uppercase;text-align:center;line-height:1.4}
+.sp .n{font-size:9px;color:#887755;font-weight:700;letter-spacing:1px}
+.spd{width:1px;height:20px;background:#332211}
+
+/* Scoreboard */
+.sb{display:flex;gap:0;margin:0 0 14px;border-radius:12px;overflow:hidden;border:2px solid var(--bdr);background:var(--card)}
+.sb>div{flex:1;padding:10px 8px;text-align:center;border-right:1px solid var(--bdr)}
+.sb>div:last-child{border-right:none}
+.sbl{font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;color:var(--dim);text-transform:uppercase;margin-bottom:2px}
+.sbv{font-family:'Bebas Neue',sans-serif;font-size:26px;line-height:1}
+.sbv.g{color:var(--green)}.sbv.m{color:var(--gold)}
+
+/* Halftime banner */
+.ht{background:linear-gradient(135deg,#ff660011,#ffd70008);border:1px solid #ff660033;border-radius:10px;padding:12px 16px;margin:0 0 14px;text-align:center}
+.ht-t{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:var(--orange)}
+.ht-s{font-family:'JetBrains Mono',monospace;font-size:8px;color:var(--dim);margin-top:4px;letter-spacing:1px}
+
+/* Tabs */
+.tabs{display:flex;gap:0;border-radius:12px 12px 0 0;overflow:hidden;border:2px solid var(--bdr);border-bottom:none}
+.tab{flex:1;padding:12px 4px;text-align:center;cursor:pointer;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;transition:all .3s;background:var(--card);color:var(--dim);position:relative}
+.tab:hover{background:var(--card2)}
+.tab.a0{background:linear-gradient(180deg,#ff330022,var(--card));color:var(--orange);border-bottom:3px solid var(--orange)}
+.tab.a2{background:linear-gradient(180deg,#bb66ff22,var(--card));color:var(--purple);border-bottom:3px solid var(--purple)}
+.tab.a3{background:linear-gradient(180deg,#ffd70022,var(--card));color:var(--gold);border-bottom:3px solid var(--gold)}
+.tab small{display:block;font-family:'JetBrains Mono',monospace;font-size:7px;letter-spacing:2px;margin-top:1px;opacity:.6}
+
+/* Panels */
+.pn{display:none;animation:su .4s ease;border:2px solid var(--bdr);border-top:none;border-radius:0 0 12px 12px;background:var(--card);padding:14px;margin-bottom:16px}
+.pn.ac{display:block}
+@keyframes su{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* Sections */
+.sc{display:flex;align-items:center;gap:8px;margin:14px 0 10px;font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:3px}
+.sc::after{content:'';flex:1;height:1px}
+.sc.r{color:var(--red)}.sc.r::after{background:linear-gradient(90deg,var(--red)44,transparent)}
+.sc.o{color:var(--orange)}.sc.o::after{background:linear-gradient(90deg,var(--orange)44,transparent)}
+.sc.p{color:var(--purple)}.sc.p::after{background:linear-gradient(90deg,var(--purple)44,transparent)}
+.sc.gl{color:var(--gold)}.sc.gl::after{background:linear-gradient(90deg,var(--gold)44,transparent)}
+.sc.d{color:var(--dim)}.sc.d::after{background:linear-gradient(90deg,var(--dim)33,transparent)}
+.sc.w{color:var(--red)}.sc.w::after{background:linear-gradient(90deg,var(--red)44,transparent)}
+
+/* Pick cards */
+.pk{background:var(--card2);border:1px solid var(--bdr);border-radius:10px;margin-bottom:10px;overflow:hidden;position:relative}
+.pk::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.pk.h::before{background:linear-gradient(90deg,var(--red),var(--orange))}
+.pk.m::before{background:linear-gradient(90deg,var(--purple),var(--blue))}
+.pk.g::before{background:linear-gradient(90deg,var(--gold),var(--teal))}
+@keyframes bz{0%{box-shadow:0 0 0 0 #ff660044}70%{box-shadow:0 0 0 10px #ff660000}100%{box-shadow:0 0 0 0 #ff660000}}
+.pk.h:hover{animation:bz 1s ease}
+
+.pt{display:flex;justify-content:space-between;align-items:center;padding:12px 14px 4px}
+.pn-name{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;color:var(--white)}
+.pr{text-align:right}
+.cf{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1}
+.cf.c9{color:var(--red)}.pv{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;color:var(--purple)}.gv{font-family:'Bebas Neue',sans-serif;font-size:28px;line-height:1;color:var(--gold)}
+.psb{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--dim);letter-spacing:1px}
+.mu{padding:0 14px 4px;font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--dim)}
+.mu .rk{color:var(--orange);font-weight:700}
+
+/* Stats bar */
+.sts{display:flex;border-top:1px solid var(--bdr);margin-top:4px}
+.st{flex:1;padding:8px 6px;text-align:center;border-right:1px solid var(--bdr)}
+.st:last-child{border-right:none}
+.stl{font-family:'JetBrains Mono',monospace;font-size:6px;letter-spacing:1.5px;color:var(--dim);text-transform:uppercase;margin-bottom:1px}
+.stv{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--white)}
+.stv.ng{color:var(--red)}.stv.gd{color:var(--gold)}
+
+/* FF tags */
+.ff{padding:4px 14px 8px;display:flex;gap:5px;flex-wrap:wrap}
+.ft{display:inline-block;padding:2px 7px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:7px;font-weight:700;letter-spacing:.5px}
+.ft.u{background:#22dd7718;border:1px solid #22dd7733;color:var(--green)}
+.ft.d{background:#ff332218;border:1px solid #ff332233;color:var(--red)}
+
+/* Kelly bar */
+.kb{padding:2px 14px 10px}
+.kbb{height:6px;background:#1a0a00;border-radius:3px;overflow:hidden;border:1px solid var(--bdr)}
+.kbf{height:100%;border-radius:3px}
+.kbf.pp{background:linear-gradient(90deg,var(--purple),var(--blue))}
+.kbf.gl{background:linear-gradient(90deg,var(--gold),var(--teal))}
+.kbf.og{background:linear-gradient(90deg,var(--orange),var(--red))}
+.km{display:flex;justify-content:space-between;margin-top:3px;font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--dim)}
+
+.me{padding:0 14px 10px;font-size:10px;color:var(--dim);font-family:'Barlow Condensed',sans-serif;letter-spacing:.5px}
+.me span{color:var(--txt)}
+
+/* Leans */
+.ln{display:flex;align-items:center;justify-content:space-between;background:var(--card2);border:1px solid var(--bdr);border-radius:8px;padding:9px 12px;margin-bottom:5px}
+.ln-n{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.5px;flex:1}
+.ln-v{font-family:'Bebas Neue',sans-serif;font-size:16px;width:54px;text-align:right}
+.ln-v.og{color:var(--orange)}.ln-v.pp{color:var(--purple)}.ln-v.gl{color:var(--gold)}
+.ln.wr{border-color:#ff332244}
+.wt{font-family:'JetBrains Mono',monospace;font-size:7px;color:var(--red);margin-left:4px}
+
+/* Net divider */
+.nd{height:20px;margin:12px 0;position:relative;overflow:hidden;opacity:.08}
+.nd::before{content:'';position:absolute;inset:0;background:repeating-conic-gradient(#fff 0% 25%, transparent 0% 50%) 50% 0/12px 12px}
+
+/* Hoop deco */
+.hd{text-align:center;margin:16px 0 8px;opacity:.15}
+
+/* Footer */
+.ftr{text-align:center;padding:20px 0 12px}
+.ftr .ds{font-family:'JetBrains Mono',monospace;font-size:8px;color:#443322;margin-bottom:6px;letter-spacing:1px}
+.ftr .br{font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:4px;color:#553322}
+.ftr .vr{font-family:'JetBrains Mono',monospace;font-size:7px;color:#332211;letter-spacing:2px;margin-top:2px}
+</style>
+</head>
+<body>
+<div class="court-lines"></div>
+<div class="defs">
+<svg><defs>
+<symbol id="bb" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="none" stroke="currentColor" stroke-width="4"/><path d="M50 4v92" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M4 50h92" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M14 14C35 30 35 70 14 86" stroke="currentColor" stroke-width="2.5" fill="none"/><path d="M86 14C65 30 65 70 86 86" stroke="currentColor" stroke-width="2.5" fill="none"/></symbol>
+<symbol id="hp" viewBox="0 0 100 80"><rect x="30" y="0" width="40" height="6" rx="2" fill="currentColor" opacity=".5"/><ellipse cx="50" cy="12" rx="22" ry="8" fill="none" stroke="currentColor" stroke-width="3"/><line x1="30" y1="18" x2="35" y2="50" stroke="currentColor" stroke-width="1.5" opacity=".4"/><line x1="42" y1="20" x2="43" y2="55" stroke="currentColor" stroke-width="1.5" opacity=".4"/><line x1="50" y1="20" x2="50" y2="58" stroke="currentColor" stroke-width="1.5" opacity=".4"/><line x1="58" y1="20" x2="57" y2="55" stroke="currentColor" stroke-width="1.5" opacity=".4"/><line x1="70" y1="18" x2="65" y2="50" stroke="currentColor" stroke-width="1.5" opacity=".4"/></symbol>
+<symbol id="tp" viewBox="0 0 100 100"><path d="M35 10h30v5c0 20-5 35-15 40-10-5-15-20-15-40z" fill="currentColor" opacity=".8"/><path d="M35 15c-15 0-20 10-18 25 2 12 10 15 18 12" fill="none" stroke="currentColor" stroke-width="3"/><path d="M65 15c15 0 20 10 18 25-2 12-10 15-18 12" fill="none" stroke="currentColor" stroke-width="3"/><rect x="40" y="55" width="20" height="8" rx="2" fill="currentColor" opacity=".6"/><rect x="35" y="63" width="30" height="6" rx="2" fill="currentColor" opacity=".4"/><path d="M30 75h40l3 10H27z" fill="currentColor" opacity=".5"/></symbol>
+<symbol id="wh" viewBox="0 0 100 100"><circle cx="30" cy="55" r="18" fill="none" stroke="currentColor" stroke-width="3"/><path d="M45 45L85 15" stroke="currentColor" stroke-width="6" stroke-linecap="round"/><circle cx="30" cy="55" r="5" fill="currentColor" opacity=".4"/></symbol>
+<!-- Dunker + Hoop Logo -->
+<symbol id="logo" viewBox="0 0 300 260">
+<!-- Backboard -->
+<rect x="175" y="18" width="70" height="50" rx="4" fill="none" stroke="currentColor" stroke-width="4" opacity=".5"/>
+<rect x="195" y="32" width="30" height="22" rx="2" fill="none" stroke="currentColor" stroke-width="2.5" opacity=".4"/>
+<!-- Rim -->
+<ellipse cx="210" cy="72" rx="26" ry="9" fill="none" stroke="currentColor" stroke-width="4"/>
+<!-- Net lines -->
+<path d="M186 78 L192 120" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+<path d="M198 80 L200 125" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+<path d="M210 81 L210 128" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+<path d="M222 80 L220 125" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+<path d="M234 78 L228 120" stroke="currentColor" stroke-width="1.5" opacity=".3"/>
+<!-- Cross-net -->
+<path d="M190 95 Q210 88 230 95" stroke="currentColor" stroke-width="1" opacity=".2" fill="none"/>
+<path d="M193 110 Q210 103 227 110" stroke="currentColor" stroke-width="1" opacity=".15" fill="none"/>
+<!-- Pole -->
+<line x1="245" y1="68" x2="245" y2="220" stroke="currentColor" stroke-width="4" opacity=".3"/>
+<rect x="230" y="215" width="30" height="6" rx="2" fill="currentColor" opacity=".2"/>
+<!-- DUNKER - dynamic slam pose -->
+<!-- Torso -->
+<path d="M155 55 Q145 75 150 95" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>
+<!-- Head -->
+<circle cx="158" cy="42" r="14" fill="currentColor" opacity=".85"/>
+<!-- Right arm (dunking - extended up to rim) -->
+<path d="M155 60 Q175 35 200 52" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+<!-- Right hand on ball at rim -->
+<circle cx="202" cy="55" r="10" fill="none" stroke="currentColor" stroke-width="3.5"/>
+<!-- Ball seam lines -->
+<line x1="194" y1="50" x2="210" y2="60" stroke="currentColor" stroke-width="1.5"/>
+<line x1="197" y1="62" x2="207" y2="48" stroke="currentColor" stroke-width="1.5"/>
+<!-- Left arm (back, trailing) -->
+<path d="M148 65 Q120 50 105 65" stroke="currentColor" stroke-width="5" stroke-linecap="round" fill="none"/>
+<!-- Left hand -->
+<circle cx="103" cy="66" r="4" fill="currentColor" opacity=".6"/>
+<!-- Hips -->
+<ellipse cx="150" cy="100" rx="10" ry="6" fill="currentColor" opacity=".4"/>
+<!-- Right leg (forward, bent at knee - power pose) -->
+<path d="M155 100 Q175 115 165 140" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M165 140 Q160 160 170 175" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+<!-- Right shoe -->
+<path d="M170 175 L185 178 L185 183 L168 183 Z" fill="currentColor" opacity=".7"/>
+<!-- Left leg (back, extended - jumping) -->
+<path d="M145 100 Q120 125 115 150" stroke="currentColor" stroke-width="6" stroke-linecap="round" fill="none"/>
+<path d="M115 150 Q108 170 100 185" stroke="currentColor" stroke-width="5.5" stroke-linecap="round" fill="none"/>
+<!-- Left shoe -->
+<path d="M100 185 L85 190 L85 195 L102 195 Z" fill="currentColor" opacity=".7"/>
+<!-- Jersey number hint -->
+<text x="147" y="88" font-family="'Bebas Neue',sans-serif" font-size="16" fill="currentColor" opacity=".25" text-anchor="middle">0</text>
+<!-- Motion lines -->
+<line x1="90" y1="95" x2="70" y2="100" stroke="currentColor" stroke-width="2" opacity=".2" stroke-linecap="round"/>
+<line x1="88" y1="110" x2="65" y2="118" stroke="currentColor" stroke-width="2" opacity=".15" stroke-linecap="round"/>
+<line x1="92" y1="125" x2="72" y2="135" stroke="currentColor" stroke-width="2" opacity=".1" stroke-linecap="round"/>
+<!-- Impact burst at rim -->
+<line x1="215" y1="42" x2="225" y2="30" stroke="currentColor" stroke-width="2.5" opacity=".3" stroke-linecap="round"/>
+<line x1="225" y1="48" x2="240" y2="38" stroke="currentColor" stroke-width="2.5" opacity=".25" stroke-linecap="round"/>
+<line x1="220" y1="55" x2="242" y2="52" stroke="currentColor" stroke-width="2" opacity=".2" stroke-linecap="round"/>
+</symbol>
+</defs></svg>
+</div>
+
+<div class="w">
+<!-- LOGO -->
+<div style="text-align:center;padding:20px 0 0;position:relative">
+<div style="position:relative;display:inline-block">
+<!-- Glow behind logo -->
+<div style="position:absolute;inset:-20px;background:radial-gradient(ellipse at 60% 40%,#ff660018,transparent 70%);border-radius:50%;pointer-events:none"></div>
+<svg width="180" height="156" style="color:var(--orange);filter:drop-shadow(0 0 20px #ff660033);position:relative"><use href="#logo"/></svg>
+</div>
+<div style="font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:6px;color:var(--dim);margin-top:4px;opacity:.5">EST. 2026 — FORT WORTH, TX</div>
+</div>
+
+<div class="hdr" style="padding-top:10px">
+<div class="badge"><svg width="12" height="12" style="color:var(--orange)"><use href="#bb"/></svg> CHAMPIONSHIP WEEK 2026</div>
+<div class="balls"><div class="b"><svg width="18" height="18" style="color:var(--leather)"><use href="#bb"/></svg></div><div class="b"><svg width="18" height="18" style="color:var(--leather)"><use href="#bb"/></svg></div><div class="b"><svg width="18" height="18" style="color:var(--leather)"><use href="#bb"/></svg></div></div>
+<h1>MARCH 11<span>NIL ATS MODEL</span></h1>
+<div class="sub">23 GAMES — ALL CONFERENCE TOURNEYS — NEUTRAL COURTS</div>
+</div>
+
+<div class="sp">
+<div><div class="n">The Hockaday School</div>cornerstones since 1913</div><div class="spd"></div>
+<div><div class="n">Dale's Pale Ale</div>hand-canned courage</div><div class="spd"></div>
+<div><div class="n">Dan Crenshaw</div>Texas 2030 ★</div>
+</div>
+
+<div class="sb">
+<div><div class="sbl">v5.0 Record</div><div class="sbv g">6-2</div></div>
+<div><div class="sbl">Win Rate</div><div class="sbv g">75%</div></div>
+<div><div class="sbl">Units</div><div class="sbv m">+3.45u</div></div>
+<div><div class="sbl">ROI</div><div class="sbv m">43.2%</div></div>
+</div>
+
+<div class="ht">
+<div class="ht-t"><svg width="14" height="14" style="color:var(--orange);vertical-align:middle;margin-right:4px"><use href="#tp"/></svg> CHAMP WEEK EDITION <svg width="14" height="14" style="color:var(--orange);vertical-align:middle;margin-left:4px"><use href="#tp"/></svg></div>
+<div class="ht-s">KenPom Efficiency · Four Factors · Garrison Probability · Half-Kelly Sizing</div>
+</div>
+
+<div class="tabs" id="tabs">
+<div class="tab a0" onclick="sw('0')" id="t0">v5.0<small>CLASSIC</small></div>
+<div class="tab" onclick="sw('2')" id="t2">v5.2<small>GARRISON</small></div>
+<div class="tab" onclick="sw('3')" id="t3">v5.3<small>GARRISON+</small></div>
+</div>
+
+<!-- v5.0 -->
+<div class="pn ac" id="p0">
+<div class="sc r"><svg width="14" height="14" style="color:var(--red)"><use href="#bb"/></svg> TOP PLAYS — 9/10</div>
+<div class="pk h">
+<div class="pt"><div><div class="pn-name">🔻 AIR FORCE +20</div></div><div class="pr"><div class="cf c9">9<span style="font-size:12px;color:var(--dim)">/10</span></div></div></div>
+<div class="mu"><span class="rk">#76</span> Nevada vs <span class="rk">#344</span> Air Force</div>
+<div class="sts"><div class="st"><div class="stl">Model</div><div class="stv">NEV 11.6</div></div><div class="st"><div class="stl">ATS Edge</div><div class="stv ng">-8.4</div></div><div class="st"><div class="stl">Line</div><div class="stv">20</div></div></div>
+<div class="me">MWC 1st Round — Thomas & Mack, Las Vegas — <span>4:30 PM CST</span></div>
+</div>
+<div class="pk h">
+<div class="pt"><div><div class="pn-name">🔻 SAN JOSE ST +15.5</div></div><div class="pr"><div class="cf c9">9<span style="font-size:12px;color:var(--dim)">/10</span></div></div></div>
+<div class="mu"><span class="rk">#55</span> Boise St vs <span class="rk">#236</span> San Jose St</div>
+<div class="sts"><div class="st"><div class="stl">Model</div><div class="stv">BOIS 8.2</div></div><div class="st"><div class="stl">ATS Edge</div><div class="stv ng">-7.3</div></div><div class="st"><div class="stl">Line</div><div class="stv">15.5</div></div></div>
+<div class="me">MWC 1st Round — Thomas & Mack, Las Vegas — <span>10:30 PM CST</span></div>
+</div>
+<div class="nd"></div>
+<div class="sc o"><svg width="14" height="14" style="color:var(--orange)"><use href="#wh"/></svg> LEANS — 7/10</div>
+<div class="ln"><div class="ln-n">🔻 Arizona St +11.5 <span style="color:var(--dim);font-size:10px">vs Iowa St</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 LSU +8 <span style="color:var(--dim);font-size:10px">vs Kentucky</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 Wyoming +4 <span style="color:var(--dim);font-size:10px">vs UNLV</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 USC +5.5 <span style="color:var(--dim);font-size:10px">vs Washington</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 Fresno St +7 <span style="color:var(--dim);font-size:10px">vs Colorado St</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 Pittsburgh +8.5 <span style="color:var(--dim);font-size:10px">vs NC State</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 S Carolina +7.5 <span style="color:var(--dim);font-size:10px">vs Oklahoma</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 La Salle +6 <span style="color:var(--dim);font-size:10px">vs St Bonnies</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 Xavier +4.5 <span style="color:var(--dim);font-size:10px">vs Marquette</span></div><div class="ln-v og">7/10</div></div>
+<div class="ln"><div class="ln-n">🔻 UC Davis +5 <span style="color:var(--dim);font-size:10px">vs UCSB</span></div><div class="ln-v og">7/10</div></div>
+</div>
+
+<!-- v5.2 -->
+<div class="pn" id="p2">
+<div class="sc p"><svg width="14" height="14" style="color:var(--purple)"><use href="#bb"/></svg> HEAVY — 75%+ COVER</div>
+<div class="pk m">
+<div class="pt"><div><div class="pn-name">🔻 AIR FORCE +20</div></div><div class="pr"><div class="pv">77.9%</div><div class="psb">½K: 26.8%</div></div></div>
+<div class="mu"><span class="rk">#76</span> Nevada vs <span class="rk">#344</span> Air Force</div>
+<div class="kb"><div class="kbb"><div class="kbf pp" style="width:89%"></div></div><div class="km"><span>KELLY</span><span>26.8% — MAX</span></div></div>
+<div class="me">MWC 1R — Vegas — <span>4:30 PM</span></div>
+</div>
+<div class="pk m">
+<div class="pt"><div><div class="pn-name">🔻 SAN JOSE ST +15.5</div></div><div class="pr"><div class="pv">74.7%</div><div class="psb">½K: 23.5%</div></div></div>
+<div class="mu"><span class="rk">#55</span> Boise St vs <span class="rk">#236</span> San Jose St</div>
+<div class="kb"><div class="kbb"><div class="kbf pp" style="width:78%"></div></div><div class="km"><span>KELLY</span><span>23.5% — HEAVY</span></div></div>
+<div class="me">MWC 1R — Vegas — <span>10:30 PM</span></div>
+</div>
+<div class="sc p"><svg width="14" height="14" style="color:var(--purple)"><use href="#hp"/></svg> MEDIUM — 64-67%</div>
+<div class="ln"><div class="ln-n">🔻 Arizona St +11.5 <span style="color:var(--dim);font-size:10px">vs Iowa St</span></div><div class="ln-v pp">66.8%</div></div>
+<div class="ln"><div class="ln-n">🔻 LSU +8 <span style="color:var(--dim);font-size:10px">vs Kentucky</span></div><div class="ln-v pp">65.8%</div></div>
+<div class="ln"><div class="ln-n">🔻 Wyoming +4 <span style="color:var(--dim);font-size:10px">vs UNLV</span></div><div class="ln-v pp">64.8%</div></div>
+<div class="ln"><div class="ln-n">🔻 Fresno St +7 <span style="color:var(--dim);font-size:10px">vs Colorado St</span></div><div class="ln-v pp">64.6%</div></div>
+<div class="ln"><div class="ln-n">🔻 UC Davis +5 <span style="color:var(--dim);font-size:10px">vs UCSB</span></div><div class="ln-v pp">64.0%</div></div>
+<div class="sc d"><svg width="14" height="14" style="color:var(--dim)"><use href="#wh"/></svg> LIGHT — 60-64%</div>
+<div class="ln"><div class="ln-n">🔻 USC +5.5 <span style="color:var(--dim);font-size:10px">vs Washington</span></div><div class="ln-v pp">63.6%</div></div>
+<div class="ln"><div class="ln-n">🔻 S Carolina +7.5 <span style="color:var(--dim);font-size:10px">vs Oklahoma</span></div><div class="ln-v pp">63.4%</div></div>
+<div class="ln"><div class="ln-n">🔻 Pittsburgh +8.5 <span style="color:var(--dim);font-size:10px">vs NC State</span></div><div class="ln-v pp">63.4%</div></div>
+<div class="ln"><div class="ln-n">🔻 La Salle +6 <span style="color:var(--dim);font-size:10px">vs St Bonnies</span></div><div class="ln-v pp">63.2%</div></div>
+<div class="ln"><div class="ln-n">🔻 Xavier +4.5 <span style="color:var(--dim);font-size:10px">vs Marquette</span></div><div class="ln-v pp">62.7%</div></div>
+<div class="ln"><div class="ln-n">🔻 California +4 <span style="color:var(--dim);font-size:10px">vs Florida St</span></div><div class="ln-v pp">62.4%</div></div>
+<div class="ln"><div class="ln-n">🔻 Miss St +8 <span style="color:var(--dim);font-size:10px">vs Auburn</span></div><div class="ln-v pp">62.0%</div></div>
+</div>
+
+<!-- v5.3 -->
+<div class="pn" id="p3">
+<div class="sc gl"><svg width="14" height="14" style="color:var(--gold)"><use href="#tp"/></svg> HEAVY — 73%+ COVER</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 AIR FORCE +20</div></div><div class="pr"><div class="gv">76.5%</div><div class="psb">½K: 25.3% · HEAVY</div></div></div>
+<div class="mu"><span class="rk">#76</span> Nevada vs <span class="rk">#344</span> Air Force</div>
+<div class="sts"><div class="st"><div class="stl">v5.2 ATS</div><div class="stv ng">-8.4</div></div><div class="st"><div class="stl">FF Adj</div><div class="stv gd">+0.5</div></div><div class="st"><div class="stl">v5.3 ATS</div><div class="stv ng">-7.9</div></div></div>
+<div class="ff"><span class="ft d">⚠ BLOW: Dog defeFG 57%</span></div>
+<div class="kb"><div class="kbb"><div class="kbf gl" style="width:84%"></div></div><div class="km"><span>KELLY</span><span>25.3% — HEAVY</span></div></div>
+<div class="me">MWC 1R — Vegas — <span>4:30 PM</span></div>
+</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 SAN JOSE ST +15.5</div></div><div class="pr"><div class="gv">73.3%</div><div class="psb">½K: 21.9% · HEAVY</div></div></div>
+<div class="mu"><span class="rk">#55</span> Boise St vs <span class="rk">#236</span> San Jose St</div>
+<div class="sts"><div class="st"><div class="stl">v5.2 ATS</div><div class="stv ng">-7.3</div></div><div class="st"><div class="stl">FF Adj</div><div class="stv gd">+0.5</div></div><div class="st"><div class="stl">v5.3 ATS</div><div class="stv ng">-6.8</div></div></div>
+<div class="ff"><span class="ft d">⚠ BLOW: Dog defeFG 57%</span></div>
+<div class="kb"><div class="kbb"><div class="kbf gl" style="width:73%"></div></div><div class="km"><span>KELLY</span><span>21.9% — HEAVY</span></div></div>
+<div class="me">MWC 1R — Vegas — <span>10:30 PM</span></div>
+</div>
+
+<div class="sc gl"><svg width="14" height="14" style="color:var(--gold)"><use href="#hp"/></svg> MEDIUM — 63-67%</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 ARIZONA ST +11.5</div></div><div class="pr"><div class="gv">66.4%</div><div class="psb">½K: 14.7%</div></div></div>
+<div class="mu"><span class="rk">#7</span> Iowa St vs <span class="rk">#63</span> Arizona St</div>
+<div class="ff"><span class="ft u">ORB: ISU 35% off reb</span></div>
+<div class="me">Big 12 2R — T-Mobile Center, KC — <span>11:30 AM</span></div>
+</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 LSU +8</div></div><div class="pr"><div class="gv">65.6%</div><div class="psb">½K: 13.9%</div></div></div>
+<div class="mu"><span class="rk">#27</span> Kentucky vs <span class="rk">#62</span> LSU</div>
+<div class="ff"><span class="ft u">ORB: UK 35% off reb</span></div>
+<div class="me">SEC 1R — Bridgestone Arena, Nashville — <span>11:30 AM</span></div>
+</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 FRESNO ST +7</div></div><div class="pr"><div class="gv">64.6%</div><div class="psb">½K: 12.8%</div></div></div>
+<div class="mu"><span class="rk">#84</span> Colorado St vs <span class="rk">#131</span> Fresno St</div>
+<div class="me">MWC 1R — Vegas — <span>8:00 PM</span></div>
+</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 UC DAVIS +5</div></div><div class="pr"><div class="gv">64.4%</div><div class="psb">½K: 12.6%</div></div></div>
+<div class="mu"><span class="rk">#125</span> UCSB vs <span class="rk">#155</span> UC Davis</div>
+<div class="ff"><span class="ft d">FTR: UCSB allows 43% opp FTR</span></div>
+<div class="me">Big West 1R — Henderson — <span>10:30 PM</span></div>
+</div>
+<div class="pk g">
+<div class="pt"><div><div class="pn-name">🔻 USC +5.5</div></div><div class="pr"><div class="gv">63.5%</div><div class="psb">½K: 11.7%</div></div></div>
+<div class="mu"><span class="rk">#54</span> Washington vs <span class="rk">#77</span> USC</div>
+<div class="me">Big 10 2R — United Center, Chicago — <span>1:30 PM</span></div>
+</div>
+
+<div class="sc gl"><svg width="14" height="14" style="color:var(--gold)"><use href="#wh"/></svg> LIGHT — 60-63%</div>
+<div class="ln"><div class="ln-n">🔻 S Carolina +7.5 <span style="color:var(--dim);font-size:10px">vs Oklahoma</span></div><div class="ln-v gl">63.5%</div></div>
+<div class="ln"><div class="ln-n">🔻 Pittsburgh +8.5 <span style="color:var(--dim);font-size:10px">vs NC State</span></div><div class="ln-v gl">63.4%</div></div>
+<div class="ln"><div class="ln-n">🔻 La Salle +6 <span style="color:var(--dim);font-size:10px">vs St Bonnies</span></div><div class="ln-v gl">63.0%</div></div>
+<div class="ln"><div class="ln-n">🔻 Xavier +4.5 <span style="color:var(--dim);font-size:10px">vs Marquette</span></div><div class="ln-v gl">62.8%</div></div>
+<div class="ln"><div class="ln-n">🔻 California +4 <span style="color:var(--dim);font-size:10px">vs Florida St</span></div><div class="ln-v gl">62.5%</div></div>
+
+<div class="sc w"><svg width="14" height="14" style="color:var(--red)"><use href="#bb"/></svg> ⚠ DOWNGRADED BY FOUR FACTORS</div>
+<div class="ln wr"><div class="ln-n">⚠ Wyoming +4 <span class="wt">FTR 48% — FOULS!</span></div><div class="ln-v gl">61.8%</div></div>
+<div class="ln wr"><div class="ln-n">⚠ Miss St +8 <span class="wt">AUB 38% ORB</span></div><div class="ln-v gl">60.5%</div></div>
+</div>
+
+<div class="hd"><svg width="60" height="48" style="color:var(--leather)"><use href="#hp"/></svg></div>
+
+<div class="ftr">
+<div class="ds">FOR ENTERTAINMENT PURPOSES ONLY — GAMBLE RESPONSIBLY</div>
+<div class="br"><svg width="12" height="12" style="color:#553322;vertical-align:middle;margin-right:4px"><use href="#bb"/></svg> NIL ATS MODEL <svg width="12" height="12" style="color:#553322;vertical-align:middle;margin-left:4px"><use href="#bb"/></svg></div>
+<div class="vr">v5.0 CLASSIC · v5.2 GARRISON EFFECT · v5.3 GARRISON EFFECT PLUS</div>
+</div>
+</div>
+
+<script>
+function sw(v){
+['p0','p2','p3'].forEach(p=>document.getElementById(p).classList.remove('ac'));
+['t0','t2','t3'].forEach(t=>{let e=document.getElementById(t);e.classList.remove('a0','a2','a3')});
+document.getElementById('p'+v).classList.add('ac');
+document.getElementById('t'+v).classList.add({0:'a0',2:'a2',3:'a3'}[v]);
+}
+</script>
+</body>
+</html>
